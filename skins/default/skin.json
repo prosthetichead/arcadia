@@ -1,0 +1,24 @@
+{
+    "meta": {
+        "name": "Default Skin",
+        "version": "1.0.0",
+        "author": "Ash",
+        "description": "The Default Skin 800x600",
+        "resolution": [800, 600]
+
+    },
+    "components":[
+        {
+            "type": "GameList",
+            "x": 0,
+            "y": 0,
+            "width": 300,
+            "height": 500,
+            "props": {
+                "font_size": 24,
+                "selected_color": "#FFFF00",
+                "unselected_color": "#AAAAAA"
+            }
+        }
+    ]
+}

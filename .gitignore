@@ -1,0 +1,28 @@
+# --- Python Garbage ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.manifest
+venv/
+env/
+
+# --- VS Code / Editors ---
+.vscode/
+.idea/
+*.swp
+
+# --- OS Garbage ---
+.DS_Store
+Thumbs.db
+
+# --- Arcadia Data ---
+data/
+
+# Ignore logs
+*.log
+
+# --- Assets Protection ---
+assets/**/*.sfc
+assets/**/*.zip
+assets/**/*.nes
+assets/**/*.iso
