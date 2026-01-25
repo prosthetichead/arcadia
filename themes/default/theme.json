@@ -1,11 +1,9 @@
 {
     "meta": {
-        "name": "Default Skin",
+        "name": "Default Theme",
         "version": "1.0.0",
         "author": "Ash",
-        "description": "The Default Skin 800x600",
-        "resolution": [800, 600]
-
+        "description": "The Default Theme"
     },
     "components":[
         {
@@ -16,8 +14,8 @@
             "height": 500,
             "props": {
                 "font_size": 24,
-                "selected_color": "#FFFF00",
-                "unselected_color": "#AAAAAA"
+                "font_color": "#AAAAAA",
+                "selected_font_color": "#FFFF00"                
             }
         }
     ]

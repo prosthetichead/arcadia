@@ -26,13 +26,24 @@ def init_db():
     
     # Create Tables
     cursor.execute("""
+        CREATE TABLE IF NOT EXISTS settings (
+            name TEXT PRIMARY KEY,
+            value TEXT,
+            type TEXT,
+            displaysection TEXT,
+            displayname TEXT,
+            description TEXT 
+        )
+    """)
+
+    cursor.execute("""
         CREATE TABLE systems (
             id INTEGER PRIMARY KEY,
             name TEXT,
             emulator_cmd TEXT
         )
     """)
-    
+
     cursor.execute("""
         CREATE TABLE games (
             id INTEGER PRIMARY KEY,
@@ -48,6 +59,24 @@ def init_db():
     # Seed Dummy Data
     print("Seeding data...")
     
+    # Add Settings
+    default_settings = [
+            # (name, value, type, displaysection, displayname, description)
+            #("vol_master", "100", "int", "Audio", "Master Volume", "Global volume level for the arcade cabinet."),
+            #("vol_music", "50", "int", "Audio", "Music Volume", "Volume of the background menu music."),
+            ("fullscreen", "true", "bool", "Video", "Fullscreen", "Run Arcadia in fullscreen exclusive mode."),
+            ("screen_res_width", "800", "int", "Video", "Screen Width", "Screen width in pixels"),
+            ("screen_res_height", "600", "int", "Video", "Screen Height", "Screen height in pixels"),
+            #("show_fps", "false", "bool", "Video", "Show FPS", "Display the frames-per-second counter in the corner."),
+            ("theme", "default", "string", "Appearance", "Theme", "The visual skin to use for the interface."),
+            #("attract_mode", "120", "int", "System", "Attract Mode Timer", "Seconds of inactivity before playing demo videos")
+        ]
+    cursor.executemany("""
+            INSERT OR IGNORE INTO settings 
+            (name, value, type, displaysection, displayname, description)
+            VALUES (?, ?, ?, ?, ?, ?)
+        """, default_settings)
+
     # Add Systems
     cursor.execute("INSERT INTO systems (name, emulator_cmd) VALUES (?, ?)", 
                    ("SNES", "snes9x.exe"))
