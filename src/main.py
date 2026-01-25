@@ -60,14 +60,14 @@ def main():
             for comp_data in theme_data.get("components", []):
                 comp_type = comp_data.get("type")
                 if comp_type in COMPONENT_MAP:
-                    instance = COMPONENT_MAP[comp_type]()
-                    instance.x = comp_data.get("x", 0)
-                    instance.y = comp_data.get("y", 0)
-                    instance.width = comp_data.get("width", 0)
-                    instance.height = comp_data.get("height", 0)
-                    for k, v in comp_data.get("props", {}).items():
-                        setattr(instance, k, v)
+                    x = comp_data.get("x", 0)
+                    y = comp_data.get("y", 0)
+                    width = comp_data.get("width", 0)
+                    height = comp_data.get("height", 0)
+                    props = comp_data.get("props", {})
+                    instance = COMPONENT_MAP[comp_type](x, y, width, height, props)
                     components.append(instance)
+            print(f"Loaded theme: {current_theme}")
         except Exception as e:
             print(f"Error loading theme: {e}")
 
@@ -88,7 +88,8 @@ def main():
         for component in components:
             if hasattr(component, "draw"):
                 component.draw()
-
+        
+        pr.end_drawing()
 
     pr.close_window()
 
