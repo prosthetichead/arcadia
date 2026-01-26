@@ -51,7 +51,6 @@ def main():
     current_theme = SETTINGS.get("theme", "default")
     components = []
     theme_path = os.path.join(ROOT_DIR, "themes", current_theme, "theme.json")
-
     if os.path.exists(theme_path):
         try:
             with open(theme_path, "r") as f:

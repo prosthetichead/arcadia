@@ -15,3 +15,15 @@ class Component:
         """Called every frame"""
         
         pass
+
+    def parse_color(self, color_val):
+        if isinstance(color_val, str) and color_val.startswith("#"):
+            hex_str = color_val.lstrip("#")
+            if len(hex_str) == 6:
+                hex_str += "FF"
+            try:
+                return pr.get_color(int(hex_str, 16))
+            except ValueError:
+                # Return a fallback color (Magenta) to indicate error, rather than crashing
+                return pr.MAGENTA
+        return color_val
