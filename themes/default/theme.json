@@ -18,6 +18,19 @@
                 "font_color": "#AAAAAA",
                 "selected_font_color": "#00FF00"                
             }
+        },
+        {
+            "type": "GameList",
+            "x": 400,
+            "y": 20,
+            "width": 300,
+            "height": 500,
+            "props": {
+                "font_size": 10,
+                "text_align": "center",
+                "font_color": "#FF69B4",
+                "selected_font_color": "#FFF9C2"                
+            }
         }
     ]
 }
