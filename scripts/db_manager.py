@@ -62,13 +62,14 @@ def init_db():
     # Add Settings
     default_settings = [
             # (name, value, type, displaysection, displayname, description)
-            #("vol_master", "100", "int", "Audio", "Master Volume", "Global volume level for the arcade cabinet."),
-            #("vol_music", "50", "int", "Audio", "Music Volume", "Volume of the background menu music."),
+            ("theme", "default", "string", "Appearance", "Theme", "The visual skin to use for the interface."),
             ("fullscreen", "true", "bool", "Video", "Fullscreen", "Run Arcadia in fullscreen exclusive mode."),
             ("screen_res_width", "800", "int", "Video", "Screen Width", "Screen width in pixels"),
-            ("screen_res_height", "600", "int", "Video", "Screen Height", "Screen height in pixels"),
-            #("show_fps", "false", "bool", "Video", "Show FPS", "Display the frames-per-second counter in the corner."),
-            ("theme", "default", "string", "Appearance", "Theme", "The visual skin to use for the interface."),
+            ("screen_res_height", "600", "int", "Video", "Screen Height", "Screen height in pixels")
+            
+            #("vol_master", "100", "int", "Audio", "Master Volume", "Global volume level for the arcade cabinet."),
+            #("vol_music", "50", "int", "Audio", "Music Volume", "Volume of the background menu music."),
+            #("show_fps", "false", "bool", "Video", "Show FPS", "Display the frames-per-second counter in the corner."),            
             #("attract_mode", "120", "int", "System", "Attract Mode Timer", "Seconds of inactivity before playing demo videos")
         ]
     cursor.executemany("""

@@ -10,18 +10,23 @@ class GameList(Component):
         self.font_color = self.parse_color(self.props.get("font_color", "#FFFFFF"))
         self.selected_font_color = self.parse_color(self.props.get("selected_font_color", "#FFFF00"))
         
+        self.pressed = 0
     
+    def handle_input(self, input_manager):
+        super().handle_input(input_manager)
+
+        if input_manager.is_pressed("UP"):
+            self.state.selected_index = (self.state.selected_index - 1) % len(self.state.games)            
+        elif input_manager.is_pressed("DOWN"):
+            self.state.selected_index = (self.state.selected_index + 1) % len(self.state.games)
+           
+
     def update(self):
         super().update()
         if not self.state or not self.state.games:
-            return
+            return       
 
-        # Handle navigation - this updates the shared state
-        if pr.is_key_pressed(pr.KEY_DOWN):
-            self.state.selected_index = (self.state.selected_index + 1) % len(self.state.games)
-        elif pr.is_key_pressed(pr.KEY_UP):
-            self.state.selected_index = (self.state.selected_index - 1) % len(self.state.games)
-    
+
     def draw(self): 
         super().draw()
         if not self.state:
@@ -29,7 +34,7 @@ class GameList(Component):
 
         start_x = int(self.rect.x)
         start_y = int(self.rect.y)
-                
+                        
         for i, game in enumerate(self.state.games):
                             
             color = self.selected_font_color if i == self.state.selected_index else self.font_color

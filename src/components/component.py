@@ -7,13 +7,18 @@ class Component:
         self.props = props if props is not None else {}
         self.state = state
         
+    def handle_input(self, input_manager):
+        """ Input Handeling """
+
+        pass
+
     def update(self):
-        """Called on update loops"""
+        """ Update Handeling  """
         
         pass
         
     def draw(self):
-        """Called every frame"""
+        """ Draw Handeling """
         
         pass
 

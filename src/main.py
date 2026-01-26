@@ -9,6 +9,8 @@ import importlib.util
 import inspect
 from app_state import AppState
 from data_manager import DataManager
+from input_manager import InputManager
+
 
 SRC_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(SRC_DIR)
@@ -54,6 +56,8 @@ def scan_components(directory, package_prefix=None):
 # --- Main Entry Point ---
 def main():
     data_manager = DataManager(DB_NAME)
+    input_manager = InputManager()
+
     settings = data_manager.load_settings()
     
     app_state = AppState()
@@ -99,15 +103,17 @@ def main():
 
     # --- The Loop ---
     while not pr.window_should_close():
-        
         # INPUT
-
+        for component in components:
+            if hasattr(component, "handle_input"):
+                component.handle_input(input_manager)
+        
         # UPDATE
         for component in components:
             if hasattr(component, "update"):
                 component.update()
-
-        # DRAWING
+        
+        # DRAW
         pr.begin_drawing()
         pr.clear_background(pr.BLACK)
 
