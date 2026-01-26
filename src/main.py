@@ -21,6 +21,9 @@ def scan_components(directory, package_prefix=None):
     """Scans a directory for .py files and registers classes found inside."""
     if not os.path.exists(directory):
         return
+    
+    if directory not in sys.path:
+        sys.path.append(directory)
 
     for filename in os.listdir(directory):
         if filename.endswith(".py") and not filename.startswith("__"):
@@ -68,8 +71,7 @@ def main():
     theme_dir = os.path.join(ROOT_DIR, "themes", current_theme)
     theme_path = os.path.join(theme_dir, "theme.json")
     # Load theme-specific components (overrides core if names match)
-    scan_components(theme_dir)
-    
+    scan_components(theme_dir)   
 
     if os.path.exists(theme_path):
         try:
@@ -87,9 +89,13 @@ def main():
                     props = comp_data.get("props", {})
                     instance = comp_class(x, y, width, height, props, app_state)
                     components.append(instance)
+                else:
+                    print(f"Unknown component type: {comp_type}")
+
             print(f"Loaded theme: {current_theme}")
         except Exception as e:
             print(f"Error loading theme: {e}")
+
 
     # --- The Loop ---
     while not pr.window_should_close():
