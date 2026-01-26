@@ -11,6 +11,9 @@ class GameList(Component):
         self.selected_font_color = self.parse_color(self.props.get("selected_font_color", "#FFFF00"))
         self.text_align = self.props.get("text_align", "center")
         
+        self.border_thickness = self.props.get("border_thickness", 2)       
+        self.border_color = self.parse_color(self.props.get("border_color", "#FF0000"))        
+
         self.pressed = 0
     
     def handle_input(self, input_manager):
@@ -33,9 +36,15 @@ class GameList(Component):
         visible_count = int(self.rect.height / item_height) // 2 + 2
         num_games = len(self.state.games)
 
-        pr.draw_rectangle_lines_ex(self.rect, 2, self.font_color)
+        #Border
+        pr.draw_rectangle_lines_ex(self.rect, self.border_thickness, self.border_color)
         
-        pr.begin_scissor_mode(int(self.rect.x), int(self.rect.y), int(self.rect.width), int(self.rect.height))
+        pr.begin_scissor_mode(
+            int(self.rect.x + self.border_thickness), 
+            int(self.rect.y + self.border_thickness), 
+            int(self.rect.width - (self.border_thickness * 2)), 
+            int(self.rect.height - (self.border_thickness * 2))
+        )
         for i in range(-visible_count, visible_count + 1):
             index = (self.state.selected_index + i) % num_games
             game = self.state.games[index]
@@ -45,9 +54,9 @@ class GameList(Component):
             text_width = pr.measure_text(title, self.font_size)
             
             if self.text_align == "left":
-                text_x = int(self.rect.x + 10)
+                text_x = int(self.rect.x + self.border_thickness + 10)
             elif self.text_align == "right":
-                text_x = int(self.rect.x + self.rect.width - text_width - 10)
+                text_x = int(self.rect.x + self.rect.width - text_width - self.border_thickness - 10)
             else:
                 text_x = int(self.rect.x + (self.rect.width - text_width) / 2)
             

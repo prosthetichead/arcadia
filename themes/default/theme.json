@@ -16,7 +16,8 @@
                 "font_size": 24,
                 "text_align": "left",
                 "font_color": "#AAAAAA",
-                "selected_font_color": "#00FF00"                
+                "selected_font_color": "#00FF00",                   
+                "border_thickness": 0          
             }
         },
         {
@@ -29,7 +30,9 @@
                 "font_size": 10,
                 "text_align": "center",
                 "font_color": "#FF69B4",
-                "selected_font_color": "#FFF9C2"                
+                "selected_font_color": "#FFF9C2",
+                "border_color": "#FFA791",
+                "border_thickness": 5       
             }
         }
     ]
