@@ -14,12 +14,7 @@ class GameList(Component):
     
     def handle_input(self, input_manager):
         super().handle_input(input_manager)
-
-        if input_manager.is_pressed("UP"):
-            self.state.selected_index = (self.state.selected_index - 1) % len(self.state.games)            
-        elif input_manager.is_pressed("DOWN"):
-            self.state.selected_index = (self.state.selected_index + 1) % len(self.state.games)
-           
+                   
 
     def update(self):
         super().update()

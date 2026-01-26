@@ -104,6 +104,13 @@ def main():
     # --- The Loop ---
     while not pr.window_should_close():
         # INPUT
+        
+        ## Global Input used by all components
+        if input_manager.is_pressed("UP"):
+            app_state.selected_index = (app_state.selected_index - 1) % len(app_state.games)
+        elif input_manager.is_pressed("DOWN"):
+            app_state.selected_index = (app_state.selected_index + 1) % len(app_state.games)
+        
         for component in components:
             if hasattr(component, "handle_input"):
                 component.handle_input(input_manager)
