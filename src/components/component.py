@@ -1,14 +1,15 @@
 import pyray as pr
 
 class Component:
-    def __init__(self, x, y, width, height, props=None):
+    def __init__(self, x, y, width, height, props=None, state=None):
         self.rect = pr.Rectangle(x, y, width, height)
         # defaults props to nothing
         self.props = props if props is not None else {}
+        self.state = state
         
     def update(self):
         """Called on update loops"""
-
+        
         pass
         
     def draw(self):
