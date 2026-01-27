@@ -38,7 +38,7 @@ def init_db():
 
     cursor.execute("""
         CREATE TABLE systems (
-            id INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY,            
             name TEXT,
             emulator_cmd TEXT
         )
@@ -53,6 +53,26 @@ def init_db():
             year INTEGER,
             play_count INTEGER DEFAULT 0,
             FOREIGN KEY(system_id) REFERENCES systems(id)
+        )
+    """)
+
+    cursor.execute("""
+        CREATE TABLE playlists (
+            id INTEGER PRIMARY KEY,
+            name TEXT,
+            description TEXT,
+            is_dynamic BOOLEAN DEFAULT 0,
+            filter_query TEXT
+        )
+    """)
+
+    cursor.execute("""
+        CREATE TABLE playlist_games (
+            playlist_id INTEGER,
+            game_id INTEGER,
+            display_order INTEGER,
+            FOREIGN KEY(playlist_id) REFERENCES playlists(id),
+            FOREIGN KEY(game_id) REFERENCES games(id)
         )
     """)
 
@@ -101,6 +121,23 @@ def init_db():
         INSERT INTO games (system_id, title, filename, year) 
         VALUES (?, ?, ?, ?)
     """, games)
+
+    # Add Playlists
+    print("Seeding playlists...")
+    
+    # 1. Manual Playlist: Favorites
+    cursor.execute("INSERT INTO playlists (name, description, is_dynamic) VALUES (?, ?, ?)", 
+                   ("Favorites", "My manually selected favorite games", False))
+    fav_playlist_id = cursor.lastrowid
+    
+    # Add Super Mario World (1) and Street Fighter II (5)
+    cursor.executemany("INSERT INTO playlist_games (playlist_id, game_id, display_order) VALUES (?, ?, ?)", 
+                       [(fav_playlist_id, 1, 0), (fav_playlist_id, 5, 1)])
+
+    # 2. Dynamic Playlist: 90s Games
+    # We store the raw SQL WHERE clause in filter_query
+    cursor.execute("INSERT INTO playlists (name, description, is_dynamic, filter_query) VALUES (?, ?, ?, ?)", 
+                   ("90s Hits", "Games from the 1990s", True, "year >= 1990 AND year < 2000"))
 
     conn.commit()
     conn.close()
