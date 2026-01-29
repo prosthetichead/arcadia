@@ -61,7 +61,13 @@ def main():
     settings = data_manager.load_settings()
     
     app_state = AppState()
-    app_state.games = data_manager.load_games()
+    app_state.playlists = data_manager.load_playlists()
+    app_state.selected_playlist_index = 1
+    app_state.selected_playlist = app_state.playlists[app_state.selected_playlist_index - 1]
+    app_state.games = data_manager.load_playlist_games(app_state.selected_playlist.id)
+    app_state.selected_game_index = 1
+    app_state.selected_game = app_state.games[app_state.selected_game_index - 1]
+        
     
     pr.init_window(settings.get("screen_res_width", 800), settings.get("screen_res_height", 600), "ARCADIA")
     pr.set_target_fps(60)
@@ -103,14 +109,26 @@ def main():
 
     # --- The Loop ---
     while not pr.window_should_close():
-        # INPUT
-        
+        # INPUT        
         ## Global Input used by all components
         if input_manager.is_pressed("UP"):
-            app_state.selected_index = (app_state.selected_index - 1) % len(app_state.games)
+            app_state.selected_game_index = (app_state.selected_game_index - 1) % len(app_state.games)
+            app_state.selected_game = app_state.games[app_state.selected_game_index - 1]            
         elif input_manager.is_pressed("DOWN"):
-            app_state.selected_index = (app_state.selected_index + 1) % len(app_state.games)
-        
+            app_state.selected_game_index = (app_state.selected_game_index + 1) % len(app_state.games)
+            app_state.selected_game = app_state.games[app_state.selected_game_index - 1]
+        elif input_manager.is_pressed("LEFT"):
+            print("LEFT")
+            print(app_state.selected_playlist_index)
+            app_state.selected_playlist_index = (app_state.selected_playlist_index - 1) % len(app_state.playlists)
+            app_state.selected_playlist = app_state.playlists[app_state.selected_playlist_index - 1]
+            app_state.games = data_manager.load_playlist_games(app_state.selected_playlist.id)
+            app_state.selected_game_index = 1
+            app_state.selected_game = app_state.games[app_state.selected_game_index - 1]
+
+
+            
+        ## Component Inputs
         for component in components:
             if hasattr(component, "handle_input"):
                 component.handle_input(input_manager)

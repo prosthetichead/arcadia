@@ -46,9 +46,9 @@ class GameList(Component):
             int(self.rect.height - (self.border_thickness * 2))
         )
         for i in range(-visible_count, visible_count + 1):
-            index = (self.state.selected_index + i) % num_games
+            index = (self.state.selected_game_index + i) % num_games
             game = self.state.games[index]
-            title = game[0]
+            title = game.title
             y_pos = int(center_y + (i * item_height) - (self.font_size / 2))
             
             text_width = pr.measure_text(title, self.font_size)

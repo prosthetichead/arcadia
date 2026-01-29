@@ -41,6 +41,14 @@ class InputManager:
         self.bind(ACTION_DOWN, InputBinding(InputBinding.TYPE_BUTTON, pr.GamepadButton.GAMEPAD_BUTTON_LEFT_FACE_DOWN, gamepad_id=0))
         self.bind(ACTION_DOWN, InputBinding(InputBinding.TYPE_AXIS, pr.GamepadAxis.GAMEPAD_AXIS_LEFT_Y, gamepad_id=0, axis_dir=1))
 
+        # --- LEFT ACTION ---
+        self.bind(ACTION_LEFT, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_LEFT))
+        self.bind(ACTION_LEFT, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_A))
+
+        # --- RIGHT ACTION ---
+        self.bind(ACTION_RIGHT, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_RIGHT))
+        self.bind(ACTION_RIGHT, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_D))                
+
         # --- ACCEPT ACTION ---
         self.bind(ACTION_ACCEPT, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_ENTER))
         self.bind(ACTION_ACCEPT, InputBinding(InputBinding.TYPE_BUTTON, pr.GamepadButton.GAMEPAD_BUTTON_RIGHT_FACE_DOWN, gamepad_id=0))
