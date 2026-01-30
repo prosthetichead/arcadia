@@ -101,7 +101,8 @@ class DataManager:
         playlists = session.query(Playlist).all()
         session.close()
         return playlists
-
+    
+    
     def load_playlist_games(self, playlist_id):
         """Returns a list of Game objects for a specific playlist."""
         session = self.Session()
@@ -125,4 +126,6 @@ class DataManager:
             games = session.query(Game).join(PlaylistGame).filter(PlaylistGame.playlist_id == playlist.id).order_by(PlaylistGame.display_order).all()
             
         session.close()
+        if(games == None):
+            return []
         return games

@@ -12,9 +12,8 @@ class GameList(Component):
         self.text_align = self.props.get("text_align", "center")
         
         self.border_thickness = self.props.get("border_thickness", 2)       
-        self.border_color = self.parse_color(self.props.get("border_color", "#FF0000"))        
-
-        self.pressed = 0
+        self.border_color = self.parse_color(self.props.get("border_color", "#FF0000"))
+        
     
     def handle_input(self, input_manager):
         super().handle_input(input_manager)
@@ -28,16 +27,26 @@ class GameList(Component):
 
     def draw(self): 
         super().draw()
-        if not self.state or not self.state.games:
+        if not self.state:
             return
 
+        #Border
+        pr.draw_rectangle_lines_ex(self.rect, self.border_thickness, self.border_color)
+
+        #No Games
+        if not self.state.games:
+            text = "- No Games Found -"
+            text_width = pr.measure_text(text, self.font_size)
+            text_x = int(self.rect.x + (self.rect.width - text_width) / 2)
+            text_y = int(self.rect.y + (self.rect.height - self.font_size) / 2)
+            pr.draw_text(text, text_x, text_y, self.font_size, self.font_color)
+            return
+
+        #Games
         center_y = self.rect.y + (self.rect.height / 2)
         item_height = int(self.font_size * 1.5)
         visible_count = int(self.rect.height / item_height) // 2 + 2
         num_games = len(self.state.games)
-
-        #Border
-        pr.draw_rectangle_lines_ex(self.rect, self.border_thickness, self.border_color)
         
         pr.begin_scissor_mode(
             int(self.rect.x + self.border_thickness), 

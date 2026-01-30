@@ -59,14 +59,19 @@ def main():
     input_manager = InputManager()
 
     settings = data_manager.load_settings()
-    
+        
     app_state = AppState()
     app_state.playlists = data_manager.load_playlists()
     app_state.selected_playlist_index = 1
     app_state.selected_playlist = app_state.playlists[app_state.selected_playlist_index - 1]
     app_state.games = data_manager.load_playlist_games(app_state.selected_playlist.id)
-    app_state.selected_game_index = 1
-    app_state.selected_game = app_state.games[app_state.selected_game_index - 1]
+    
+    if app_state.games:
+        app_state.selected_game_index = 1
+        app_state.selected_game = app_state.games[0]
+    else:
+        app_state.selected_game_index = 0
+        app_state.selected_game = None
         
     
     pr.init_window(settings.get("screen_res_width", 800), settings.get("screen_res_height", 600), "ARCADIA")
@@ -111,20 +116,22 @@ def main():
     while not pr.window_should_close():
         # INPUT        
         ## Global Input used by all components
-        if input_manager.is_pressed("UP"):
+        if input_manager.is_pressed("GAME_NEXT") and app_state.games:
             app_state.selected_game_index = (app_state.selected_game_index - 1) % len(app_state.games)
             app_state.selected_game = app_state.games[app_state.selected_game_index - 1]            
-        elif input_manager.is_pressed("DOWN"):
+        elif input_manager.is_pressed("GAME_PREV") and app_state.games:
             app_state.selected_game_index = (app_state.selected_game_index + 1) % len(app_state.games)
             app_state.selected_game = app_state.games[app_state.selected_game_index - 1]
-        elif input_manager.is_pressed("LEFT"):
-            print("LEFT")
-            print(app_state.selected_playlist_index)
+        elif input_manager.is_pressed("PLAYLIST_NEXT"):
             app_state.selected_playlist_index = (app_state.selected_playlist_index - 1) % len(app_state.playlists)
             app_state.selected_playlist = app_state.playlists[app_state.selected_playlist_index - 1]
-            app_state.games = data_manager.load_playlist_games(app_state.selected_playlist.id)
-            app_state.selected_game_index = 1
-            app_state.selected_game = app_state.games[app_state.selected_game_index - 1]
+            app_state.games = data_manager.load_playlist_games(app_state.selected_playlist.id)            
+            if app_state.games:
+                app_state.selected_game_index = 1
+                app_state.selected_game = app_state.games[0]
+            else:
+                app_state.selected_game_index = 0
+                app_state.selected_game = None
 
 
             

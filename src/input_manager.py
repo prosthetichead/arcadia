@@ -2,10 +2,10 @@ import pyray as pr
 
 # --- CONSTANTS ---
 # Logical Actions (Strings are easier to debug than Enums)
-ACTION_UP = "UP"
-ACTION_DOWN = "DOWN"
-ACTION_LEFT = "LEFT"
-ACTION_RIGHT = "RIGHT"
+GAME_NEXT = "GAME_NEXT"
+GAME_PREV = "GAME_PREV"
+PLAYLIST_NEXT = "PLAYLIST_NEXT"
+PLAYLIST_PREV = "PLAYLIST_PREV"
 ACTION_ACCEPT = "ACCEPT"
 ACTION_BACK = "BACK"
 ACTION_MENU = "MENU"
@@ -29,25 +29,25 @@ class InputManager:
 
     def _setup_defaults(self):
         """Hardcoded defaults for now. Later, load this from DB."""        
-        # --- UP ACTION ---
-        self.bind(ACTION_UP, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_UP)) #265
-        self.bind(ACTION_UP, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_W)) #87
-        self.bind(ACTION_UP, InputBinding(InputBinding.TYPE_BUTTON, pr.GamepadButton.GAMEPAD_BUTTON_LEFT_FACE_UP, gamepad_id=0))
-        self.bind(ACTION_UP, InputBinding(InputBinding.TYPE_AXIS, pr.GamepadAxis.GAMEPAD_AXIS_LEFT_Y, gamepad_id=0, axis_dir=-1))
+        # --- GAME NEXT ITEM ACTION ---
+        self.bind(GAME_NEXT, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_DOWN))
+        self.bind(GAME_NEXT, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_S))
+        self.bind(GAME_NEXT, InputBinding(InputBinding.TYPE_BUTTON, pr.GamepadButton.GAMEPAD_BUTTON_LEFT_FACE_DOWN, gamepad_id=0))
+        self.bind(GAME_NEXT, InputBinding(InputBinding.TYPE_AXIS, pr.GamepadAxis.GAMEPAD_AXIS_LEFT_Y, gamepad_id=0, axis_dir=1))
+        
+        # --- GAME PREVIOUS ITEM ACTION ---
+        self.bind(GAME_PREV, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_UP)) #265
+        self.bind(GAME_PREV, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_W)) #87
+        self.bind(GAME_PREV, InputBinding(InputBinding.TYPE_BUTTON, pr.GamepadButton.GAMEPAD_BUTTON_LEFT_FACE_UP, gamepad_id=0))
+        self.bind(GAME_PREV, InputBinding(InputBinding.TYPE_AXIS, pr.GamepadAxis.GAMEPAD_AXIS_LEFT_Y, gamepad_id=0, axis_dir=-1))
 
-        # --- DOWN ACTION ---
-        self.bind(ACTION_DOWN, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_DOWN))
-        self.bind(ACTION_DOWN, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_S))
-        self.bind(ACTION_DOWN, InputBinding(InputBinding.TYPE_BUTTON, pr.GamepadButton.GAMEPAD_BUTTON_LEFT_FACE_DOWN, gamepad_id=0))
-        self.bind(ACTION_DOWN, InputBinding(InputBinding.TYPE_AXIS, pr.GamepadAxis.GAMEPAD_AXIS_LEFT_Y, gamepad_id=0, axis_dir=1))
+        # --- PLAYLIST NEXT ITEM ACTION ---
+        self.bind(PLAYLIST_NEXT, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_RIGHT))
+        self.bind(PLAYLIST_NEXT, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_D)) 
 
-        # --- LEFT ACTION ---
-        self.bind(ACTION_LEFT, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_LEFT))
-        self.bind(ACTION_LEFT, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_A))
-
-        # --- RIGHT ACTION ---
-        self.bind(ACTION_RIGHT, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_RIGHT))
-        self.bind(ACTION_RIGHT, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_D))                
+        # --- PLAYLIST PREVIOUS ITEM ACTION ---
+        self.bind(PLAYLIST_PREV, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_LEFT))
+        self.bind(PLAYLIST_PREV, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_A))               
 
         # --- ACCEPT ACTION ---
         self.bind(ACTION_ACCEPT, InputBinding(InputBinding.TYPE_KEY, pr.KeyboardKey.KEY_ENTER))
