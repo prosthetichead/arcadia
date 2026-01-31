@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, Float, Text, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, Float, Text, ForeignKey, Table
 from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
@@ -23,6 +23,29 @@ class Platform(Base):
     
     games = relationship("Game", back_populates="platform")
 
+class Company(Base):
+    __tablename__ = 'companies'
+    
+    id = Column(Integer, primary_key=True)
+    safe_name = Column(String, unique=True, nullable=False)
+    name = Column(String, unique=True, nullable=False)
+    
+    developed_games = relationship("Game", foreign_keys="Game.developer_id", back_populates="developer")
+    published_games = relationship("Game", foreign_keys="Game.publisher_id", back_populates="publisher")
+
+game_genres = Table('game_genres', Base.metadata,
+    Column('game_id', Integer, ForeignKey('games.id'), primary_key=True),
+    Column('genre_id', Integer, ForeignKey('genres.id'), primary_key=True)
+)
+
+class Genre(Base):
+    __tablename__ = 'genres'
+    
+    id = Column(Integer, primary_key=True)
+    safe_name = Column(String, unique=True, nullable=False)
+    name = Column(String, unique=True, nullable=False)
+    games = relationship("Game", secondary=game_genres, back_populates="genres")
+
 class Game(Base):
     __tablename__ = 'games'
     
@@ -32,10 +55,10 @@ class Game(Base):
     title = Column(String)
     filename = Column(String)
     
+    developer_id = Column(Integer, ForeignKey('companies.id'), nullable=True)
+    publisher_id = Column(Integer, ForeignKey('companies.id'), nullable=True)
+
     release_year = Column(Integer, nullable=True)
-    developer = Column(String, nullable=True)
-    publisher = Column(String, nullable=True)
-    genre = Column(String, nullable=True)
     rating = Column(Float, nullable=True)
     description = Column(Text, nullable=True)
     players = Column(String, nullable=True)
@@ -43,6 +66,9 @@ class Game(Base):
     play_count = Column(Integer, default=0)
     
     platform = relationship("Platform", back_populates="games")
+    developer = relationship("Company", foreign_keys=[developer_id], back_populates="developed_games")
+    publisher = relationship("Company", foreign_keys=[publisher_id], back_populates="published_games")
+    genres = relationship("Genre", secondary=game_genres, back_populates="games")
     playlist_associations = relationship("PlaylistGame", back_populates="game")
 
 class Playlist(Base):
