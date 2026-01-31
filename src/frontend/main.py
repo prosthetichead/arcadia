@@ -7,12 +7,17 @@ import json
 import importlib
 import importlib.util
 import inspect
-from app_state import AppState
-from data_manager import DataManager
-from input_manager import InputManager
 
+# --- PATH SETUP ---
+# Add 'src' to sys.path so we can import 'shared' and 'frontend' packages
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+SRC_DIR = os.path.dirname(CURRENT_DIR)
+sys.path.append(SRC_DIR)
 
-SRC_DIR = os.path.dirname(os.path.abspath(__file__))
+from frontend.app_state import AppState
+from shared.data_manager import DataManager
+from frontend.input_manager import InputManager
+
 ROOT_DIR = os.path.dirname(SRC_DIR)
 DB_NAME = os.path.join(ROOT_DIR, "data", "arcade.db")
 
@@ -78,7 +83,7 @@ def main():
     pr.set_target_fps(60)
 
     # Load Components
-    scan_components(os.path.join(SRC_DIR, "components"), package_prefix="components")
+    scan_components(os.path.join(CURRENT_DIR, "components"), package_prefix="frontend.components")
 
     # --- Load Theme ---
     current_theme = settings.get("theme", "default")

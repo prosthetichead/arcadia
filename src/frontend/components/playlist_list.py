@@ -1,5 +1,5 @@
 import pyray as pr
-from components.component import Component
+from frontend.components.component import Component
 
 class PlaylistList(Component):
     def __init__(self, x, y, width, height, props=None, state=None):
