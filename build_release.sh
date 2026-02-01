@@ -19,7 +19,6 @@ cp -r dist/ArcadiaServer/* dist/Arcadia/
 rm -rf dist/ArcadiaServer
 
 # Copy external assets
-cp -r src/frontend/components dist/Arcadia/components
 cp -r themes dist/Arcadia/themes
 
 echo ""

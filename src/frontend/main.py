@@ -7,30 +7,28 @@ import json
 import importlib
 import importlib.util
 import inspect
+from frontend.components.game_list import GameList
+from frontend.components.playlist_list import PlaylistList
 
 # --- PATH SETUP ---
 if getattr(sys, 'frozen', False):
     # Running as compiled exe
     APP_DIR = os.path.dirname(sys.executable)
     ROOT_DIR = APP_DIR
-    
-    # In release mode, we load components from a folder next to the exe
-    # We treat them as standalone plugins (package_prefix=None)
-    COMPONENTS_DIR = os.path.join(APP_DIR, "components")
-    COMPONENTS_PACKAGE = None
 else:
     CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
     SRC_DIR = os.path.dirname(CURRENT_DIR)
     ROOT_DIR = os.path.dirname(SRC_DIR)
-    COMPONENTS_DIR = os.path.join(CURRENT_DIR, "components")
-    COMPONENTS_PACKAGE = "frontend.components"
 
 from frontend.app_state import AppState
 from shared.data_manager import DataManager
 from frontend.input_manager import InputManager
 
 # Registry to store available component classes: {"GameList": <class GameList>, ...}
-COMPONENT_REGISTRY = {}
+COMPONENT_REGISTRY = {
+    "GameList": GameList,
+    "PlaylistList": PlaylistList
+}
 
 def scan_components(directory, package_prefix=None):
     """Scans a directory for .py files and registers classes found inside."""
@@ -90,9 +88,6 @@ def main():
     
     pr.init_window(settings.get("screen_res_width", 800), settings.get("screen_res_height", 600), "ARCADIA")
     pr.set_target_fps(60)
-
-    # Load Components
-    scan_components(COMPONENTS_DIR, package_prefix=COMPONENTS_PACKAGE)
 
     # --- Load Theme ---
     current_theme = settings.get("theme", "default")
