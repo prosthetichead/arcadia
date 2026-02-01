@@ -19,8 +19,13 @@ class Platform(Base):
     id = Column(Integer, primary_key=True)
     screenscraper_id = Column(Integer, nullable=True)
     name = Column(String)
-    emulator_cmd = Column(String)
+       
+    rom_directory = Column(String)
+    asset_directory = Column(String) #assets
+    emulator_directory = Column(String)
     
+    emulator_cmd = Column(String)
+
     games = relationship("Game", back_populates="platform")
 
 class Company(Base):

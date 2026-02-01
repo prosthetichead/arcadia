@@ -9,17 +9,14 @@ import importlib.util
 import inspect
 
 # --- PATH SETUP ---
-# Add 'src' to sys.path so we can import 'shared' and 'frontend' packages
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 SRC_DIR = os.path.dirname(CURRENT_DIR)
-sys.path.append(SRC_DIR)
 
 from frontend.app_state import AppState
 from shared.data_manager import DataManager
 from frontend.input_manager import InputManager
 
 ROOT_DIR = os.path.dirname(SRC_DIR)
-DB_NAME = os.path.join(ROOT_DIR, "data", "arcade.db")
 
 # Registry to store available component classes: {"GameList": <class GameList>, ...}
 COMPONENT_REGISTRY = {}
@@ -60,7 +57,7 @@ def scan_components(directory, package_prefix=None):
 
 # --- Main Entry Point ---
 def main():
-    data_manager = DataManager(DB_NAME)
+    data_manager = DataManager(ROOT_DIR)
     input_manager = InputManager()
 
     settings = data_manager.load_settings()
@@ -70,6 +67,7 @@ def main():
     app_state.selected_playlist_index = 1
     app_state.selected_playlist = app_state.playlists[app_state.selected_playlist_index - 1]
     app_state.games = data_manager.load_playlist_games(app_state.selected_playlist.id)
+    app_state.settings = settings
     
     if app_state.games:
         app_state.selected_game_index = 1

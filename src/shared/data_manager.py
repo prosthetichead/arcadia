@@ -5,8 +5,9 @@ from sqlalchemy.orm import sessionmaker
 from shared.models import Base, Setting, Game, Platform, Playlist, PlaylistGame
 
 class DataManager:
-    def __init__(self, db_path):
-        self.db_path = db_path
+    def __init__(self, ROOT_DIR):
+        self.root_dir = ROOT_DIR       
+        self.db_path = os.path.join(ROOT_DIR, "data", "arcade.db")
         self.engine = create_engine(f"sqlite:///{self.db_path}")
         self.Session = sessionmaker(bind=self.engine)
         
@@ -29,8 +30,7 @@ class DataManager:
         session = self.Session()
 
         # Settings
-        settings = [
-            Setting(name="base_dir", value="./roms", type="string", display_section="Paths", display_name="Base Game Directory"),
+        settings = [            
             Setting(name="theme", value="default", type="string", display_section="Appearance", display_name="Theme", description="The visual theme to use for the interface."),
             Setting(name="fullscreen", value="true", type="bool", display_section="Video", display_name="Fullscreen", description="Run Arcadia in fullscreen exclusive mode."),
             Setting(name="screen_res_width", value="800", type="int", display_section="Video", display_name="Screen Width", description="Screen width in pixels"),

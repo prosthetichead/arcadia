@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arcadia"
+version = "0.1.0"
+description = "Arcadia Frontend and Server"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "sqlalchemy",
+    "pydantic",
+    "raylib"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,5 +1,7 @@
 class AppState:
     def __init__(self):
+        self.settings = {}
+
         self.playlists = []
         self.games = []
         self.selected_game_index = 1
