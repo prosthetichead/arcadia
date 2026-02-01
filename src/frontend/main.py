@@ -9,14 +9,25 @@ import importlib.util
 import inspect
 
 # --- PATH SETUP ---
-CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-SRC_DIR = os.path.dirname(CURRENT_DIR)
+if getattr(sys, 'frozen', False):
+    # Running as compiled exe
+    APP_DIR = os.path.dirname(sys.executable)
+    ROOT_DIR = APP_DIR
+    
+    # In release mode, we load components from a folder next to the exe
+    # We treat them as standalone plugins (package_prefix=None)
+    COMPONENTS_DIR = os.path.join(APP_DIR, "components")
+    COMPONENTS_PACKAGE = None
+else:
+    CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+    SRC_DIR = os.path.dirname(CURRENT_DIR)
+    ROOT_DIR = os.path.dirname(SRC_DIR)
+    COMPONENTS_DIR = os.path.join(CURRENT_DIR, "components")
+    COMPONENTS_PACKAGE = "frontend.components"
 
 from frontend.app_state import AppState
 from shared.data_manager import DataManager
 from frontend.input_manager import InputManager
-
-ROOT_DIR = os.path.dirname(SRC_DIR)
 
 # Registry to store available component classes: {"GameList": <class GameList>, ...}
 COMPONENT_REGISTRY = {}
@@ -81,7 +92,7 @@ def main():
     pr.set_target_fps(60)
 
     # Load Components
-    scan_components(os.path.join(CURRENT_DIR, "components"), package_prefix="frontend.components")
+    scan_components(COMPONENTS_DIR, package_prefix=COMPONENTS_PACKAGE)
 
     # --- Load Theme ---
     current_theme = settings.get("theme", "default")
@@ -161,6 +172,16 @@ def main():
     pr.close_window()
 
 if __name__ == "__main__":
+    # Enable debug console on Windows if --debug flag is present
+    if getattr(sys, 'frozen', False) and sys.platform == "win32" and "--debug" in sys.argv:
+        import ctypes
+        try:
+            ctypes.windll.kernel32.AllocConsole()
+            sys.stdout = open("CONOUT$", "w")
+            sys.stderr = open("CONOUT$", "w")
+            print("--- DEBUG CONSOLE ATTACHED ---")
+        except Exception:
+            pass
     main()
 
 

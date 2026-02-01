@@ -15,8 +15,10 @@ env/
 .DS_Store
 Thumbs.db
 
-# --- Arcadia Data ---
+# --- Arcadia build and testing ---
 data/
+dist/
+build/
 
 # Ignore logs
 *.log

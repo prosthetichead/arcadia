@@ -11,7 +11,8 @@ dependencies = [
     "uvicorn",
     "sqlalchemy",
     "pydantic",
-    "raylib"
+    "raylib",
+    "pyinstaller"
 ]
 
 [tool.setuptools.packages.find]

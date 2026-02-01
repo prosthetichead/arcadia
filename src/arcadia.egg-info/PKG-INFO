@@ -6,3 +6,5 @@ Requires-Dist: fastapi
 Requires-Dist: uvicorn
 Requires-Dist: sqlalchemy
 Requires-Dist: pydantic
+Requires-Dist: raylib
+Requires-Dist: pyinstaller
